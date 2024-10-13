@@ -1,15 +1,12 @@
-package org.example.dto;
+package org.example.vo;
 
 import lombok.Data;
 
-@Data
-public class AddGoodsDTO {
-    /**
-     * Column: id
-     * Type: BIGINT
-     */
-    private Long id;
+import java.util.Date;
 
+//展示商品详情数据
+@Data
+public class GoodsDetailVO {
     /**
      * Column: goods_id
      * Type: VARCHAR(100)
@@ -44,4 +41,33 @@ public class AddGoodsDTO {
      * Remark: 商品图片地址
      */
     private String imgPath;
+
+    /**
+     * Column: seckill_price
+     * Type: DOUBLE
+     * Remark: 秒杀价格
+     */
+    private Double seckillPrice;
+
+    /**
+     * Column:  stock_num
+     * Type: INT
+     * Remark: 秒杀库存
+     */
+    private Integer stockNum;
+
+    /**
+     * Column: start_time
+     * Type: DATETIME
+     * Remark: 秒杀开始时间
+     */
+    private Date startTime;
+
+    /**
+     * Column: end_time
+     * Type: DATETIME
+     * Remark: 秒杀结束时间
+     */
+    private Date endTime;
+
 }

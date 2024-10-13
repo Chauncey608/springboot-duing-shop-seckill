@@ -1,9 +1,16 @@
-package org.example.dto;
+package org.example.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
+/**
+ * Table: goods_duing
+ */
 @Data
-public class AddGoodsDTO {
+@AllArgsConstructor
+@NoArgsConstructor
+public class GoodsDuing {
     /**
      * Column: id
      * Type: BIGINT

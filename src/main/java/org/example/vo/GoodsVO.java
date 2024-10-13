@@ -1,15 +1,14 @@
-package org.example.dto;
+package org.example.vo;
 
 import lombok.Data;
 
+/**
+ * vo = view object
+ * 为了区分数据库的表结构 和 页面的展示数据结构 而出现
+ * vo可能随着需求的变换而变化 但数据库表结构一般不轻易变
+ */
 @Data
-public class AddGoodsDTO {
-    /**
-     * Column: id
-     * Type: BIGINT
-     */
-    private Long id;
-
+public class GoodsVO {
     /**
      * Column: goods_id
      * Type: VARCHAR(100)
@@ -44,4 +43,9 @@ public class AddGoodsDTO {
      * Remark: 商品图片地址
      */
     private String imgPath;
+
+    private Double secKillPrice;
+
+    private int stockNum;
+
 }

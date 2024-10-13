@@ -3,6 +3,9 @@ package org.example.controller;
 import org.example.dto.AddGoodsDTO;
 import org.example.dto.UpdateGoodsDTO;
 import org.example.entity.Goods;
+import org.example.entity.GoodsDuing;
+import org.example.vo.GoodsDetailVO;
+import org.example.vo.GoodsVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.example.service.GoodsService;
@@ -16,8 +19,13 @@ public class GoodsController {
     private GoodsService goodsService;
 
     @GetMapping("/getGoodsList")
-    public List<Goods> getGoods(){
+    public List<GoodsVO> getGoods(){
         return goodsService.getGoods();
+    }
+
+    @GetMapping("/getGoodsDetail/{goodsId}")
+    public GoodsDetailVO getGoodsDetail(@PathVariable String goodsId){
+        return goodsService.getGoodsDetail(goodsId);
     }
 
     @PostMapping("/insertGoods")

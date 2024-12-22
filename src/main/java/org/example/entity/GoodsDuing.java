@@ -51,4 +51,6 @@ public class GoodsDuing {
      * Remark: 商品图片地址
      */
     private String imgPath;
+
+    private SeckillGoods seckillGoods;
 }

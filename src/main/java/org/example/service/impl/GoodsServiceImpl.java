@@ -1,33 +1,40 @@
 package org.example.service.impl;
 
+import com.alibaba.fastjson2.JSON;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.example.dto.AddGoodsDTO;
 import org.example.dto.UpdateGoodsDTO;
-import org.example.entity.Goods;
 import org.example.entity.GoodsDuing;
 import org.example.entity.SeckillGoods;
 import org.example.mapper.GoodsDuingMapper;
-import org.example.mapper.GoodsMapper;
 import org.example.mapper.SeckillGoodsMapper;
+import org.example.util.RedisUtil;
 import org.example.vo.GoodsDetailVO;
 import org.example.vo.GoodsVO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.example.service.GoodsService;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static jdk.nashorn.internal.runtime.regexp.joni.Config.log;
+
 @Service
 public class GoodsServiceImpl implements GoodsService {
-
-    @Autowired
-    private GoodsMapper goodsMapper;
 
     @Autowired
     private GoodsDuingMapper goodsDuingMapper;
 
     @Autowired
     private SeckillGoodsMapper seckillGoodsMapper;
+
+    @Autowired
+    private RedisUtil redisUtil;
+
+    private static final Logger logger = LogManager.getLogger(GoodsServiceImpl.class);
 
     @Override
     public List<GoodsVO> getGoods() {
@@ -44,12 +51,16 @@ public class GoodsServiceImpl implements GoodsService {
             goodsVO.setGoodsType(goodsDuing.getGoodsType());
             goodsVO.setPrice(goodsDuing.getPrice());
             goodsVO.setImgPath(goodsDuing.getImgPath());
-            goodsVO.setSecKillPrice(seckillGoodsResult.getSeckillPrice());
-            goodsVO.setStockNum(seckillGoodsResult.getStockNum());
+            if(seckillGoodsResult!=null){
+                goodsVO.setSecKillPrice(seckillGoodsResult.getSeckillPrice());
+                goodsVO.setStockNum(seckillGoodsResult.getStockNum());
+            }
             resultGoodsVO.add(goodsVO);
         }
         return resultGoodsVO;
     }
+
+
 
     @Override
     public GoodsDetailVO getGoodsDetail(String goodsId) {
@@ -81,11 +92,6 @@ public class GoodsServiceImpl implements GoodsService {
     }
 
     @Override
-    public int deleteGoodsByName(String gname) {
-        return goodsMapper.deleteByGname(gname);
-    }
-
-    @Override
     public int updateGoodsById(UpdateGoodsDTO updateGoodsDTO) {
         GoodsDuing goods = new GoodsDuing();
         goods.setGoodsId(updateGoodsDTO.getGoodsId());
@@ -94,5 +100,35 @@ public class GoodsServiceImpl implements GoodsService {
         goods.setPrice(updateGoodsDTO.getPrice());
         goods.setImgPath(updateGoodsDTO.getImgPath());
         return goodsDuingMapper.updateByPrimaryKey(goods);
+    }
+
+    public void saveToRedis(){
+        List<GoodsDuing> mapperResultGoodsList = goodsDuingMapper.selectAll();
+        for (GoodsDuing goodsDuing : mapperResultGoodsList) {
+            String goodsId = goodsDuing.getGoodsId();
+            GoodsVO goodsVO = new GoodsVO();
+            SeckillGoods seckillGoodsResult =  seckillGoodsMapper
+                    .selectByGoodsID(goodsId);
+            goodsVO.setGoodsId(goodsId);
+            goodsVO.setGoodsName(goodsDuing.getGoodsName());
+            goodsVO.setGoodsType(goodsDuing.getGoodsType());
+            goodsVO.setPrice(goodsDuing.getPrice());
+            goodsVO.setImgPath(goodsDuing.getImgPath());
+            if(seckillGoodsResult!=null){
+                goodsVO.setSecKillPrice(seckillGoodsResult.getSeckillPrice());
+                goodsVO.setStockNum(seckillGoodsResult.getStockNum());
+            }
+            redisUtil.set(goodsId, JSON.toJSON(goodsVO).toString());
+
+        }
+    }
+
+    public String getFromRedis(String goodsId){
+        String goods =  (String)redisUtil.get(goodsId);
+        if(goods!=null){
+            return goods;
+        }
+        logger.info("redis获取为null");
+        return null;
     }
 }

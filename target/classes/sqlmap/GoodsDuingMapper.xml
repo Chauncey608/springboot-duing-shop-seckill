@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.example.mapper.GoodsDuingMapper">
+  <resultMap id="BaseResultMap" type="org.example.entity.GoodsDuing">
+    <!-- @mbg.generated: generated automatically, do not modify! -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="goods_id" jdbcType="VARCHAR" property="goodsId" />
+    <result column="goods_name" jdbcType="VARCHAR" property="goodsName" />
+    <result column="goods_type" jdbcType="VARCHAR" property="goodsType" />
+    <result column="price" jdbcType="DOUBLE" property="price" />
+    <result column="img_path" jdbcType="VARCHAR" property="imgPath" />
+  </resultMap>
+<!--  <resultMap id="GoodsAndSeckillResultMap" type="org.example.entity.GoodsVO">-->
+<!--    &lt;!&ndash; @mbg.generated: generated automatically, do not modify! &ndash;&gt;-->
+<!--    <id column="id" jdbcType="BIGINT" property="id" />-->
+<!--    <result column="goods_id" jdbcType="VARCHAR" property="goodsId" />-->
+<!--    <result column="goods_name" jdbcType="VARCHAR" property="goodsName" />-->
+<!--    <result column="goods_type" jdbcType="VARCHAR" property="goodsType" />-->
+<!--    <result column="price" jdbcType="DOUBLE" property="price" />-->
+<!--    <result column="img_path" jdbcType="VARCHAR" property="imgPath" />-->
+<!--  </resultMap>-->
+
+  <sql id="Base_Column_List">
+    <!-- @mbg.generated: generated automatically, do not modify! -->
+    id, goods_id, goods_name, goods_type, price, img_path
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+  <!-- @mbg.generated: generated automatically, do not modify! -->
+  select
+  <include refid="Base_Column_List" />
+  from goods_duing
+  where id = #{id,jdbcType=BIGINT}
+  </select>
+<!--  <select id="selectFromGoodsAndSeckillByGoodsID" parameterType="java.lang.String" resultMap="BaseResultMap">-->
+<!--    &lt;!&ndash; @mbg.generated: generated automatically, do not modify! &ndash;&gt;-->
+<!--    select-->
+<!--    <include refid="Base_Column_List" />-->
+<!--    from goods_duing-->
+<!--    where id = #{id,jdbcType=BIGINT}-->
+<!--  </select>-->
+
+  <select id="selectAll" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from goods_duing
+  </select>
+  <select id="selectGoodsById" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from goods_duing
+    where goods_id = #{goodsId}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    <!-- @mbg.generated: generated automatically, do not modify! -->
+    delete from goods_duing
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="org.example.entity.GoodsDuing" useGeneratedKeys="true">
+    <!-- @mbg.generated: generated automatically, do not modify! -->
+    insert into goods_duing (goods_id, goods_name, goods_type, 
+      price, img_path)
+    values (#{goodsId,jdbcType=VARCHAR}, #{goodsName,jdbcType=VARCHAR}, #{goodsType,jdbcType=VARCHAR}, 
+      #{price,jdbcType=DOUBLE}, #{imgPath,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="org.example.entity.GoodsDuing" useGeneratedKeys="true">
+    <!-- @mbg.generated: generated automatically, do not modify! -->
+    insert into goods_duing
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="goodsId != null">
+        goods_id,
+      </if>
+      <if test="goodsName != null">
+        goods_name,
+      </if>
+      <if test="goodsType != null">
+        goods_type,
+      </if>
+      <if test="price != null">
+        price,
+      </if>
+      <if test="imgPath != null">
+        img_path,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="goodsId != null">
+        #{goodsId,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsName != null">
+        #{goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsType != null">
+        #{goodsType,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null">
+        #{price,jdbcType=DOUBLE},
+      </if>
+      <if test="imgPath != null">
+        #{imgPath,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.example.entity.GoodsDuing">
+    <!-- @mbg.generated: generated automatically, do not modify! -->
+    update goods_duing
+    <set>
+      <if test="goodsId != null">
+        goods_id = #{goodsId,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsName != null">
+        goods_name = #{goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsType != null">
+        goods_type = #{goodsType,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null">
+        price = #{price,jdbcType=DOUBLE},
+      </if>
+      <if test="imgPath != null">
+        img_path = #{imgPath,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.example.entity.GoodsDuing">
+    <!-- @mbg.generated: generated automatically, do not modify! -->
+    update goods_duing
+    set goods_id = #{goodsId,jdbcType=VARCHAR},
+      goods_name = #{goodsName,jdbcType=VARCHAR},
+      goods_type = #{goodsType,jdbcType=VARCHAR},
+      price = #{price,jdbcType=DOUBLE},
+      img_path = #{imgPath,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectByPrimaryKeyWithLock" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    <!-- @mbg.generated: generated automatically, do not modify! -->
+    select 
+    <include refid="Base_Column_List" />
+    from goods_duing
+    where id = #{id,jdbcType=BIGINT}
+    for update
+  </select>
+</mapper>

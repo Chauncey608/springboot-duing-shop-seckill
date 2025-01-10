@@ -20,7 +20,6 @@ import org.example.service.GoodsService;
 import java.util.ArrayList;
 import java.util.List;
 
-import static jdk.nashorn.internal.runtime.regexp.joni.Config.log;
 
 @Service
 public class GoodsServiceImpl implements GoodsService {

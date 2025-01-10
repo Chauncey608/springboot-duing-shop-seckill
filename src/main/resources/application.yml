@@ -5,7 +5,7 @@ spring:
     username: root
     password: lv20010314
   redis:
-    host: 49.233.70.200
+    host: 152.136.239.113
     port: 6379
     password:  # 如果有密码
 mybatis:
